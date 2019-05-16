@@ -4,6 +4,7 @@ public class BoardVo {
 	private Long no;
 	private String title;
 	private String author;
+	private String content;
 	private Long viewCount;
 	private String regDate;
 
@@ -52,10 +53,21 @@ public class BoardVo {
 		this.regDate = regDate;
 	}
 
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
 	@Override
 	public String toString() {
-		return "BoardVo [no=" + no + ", title=" + title + ", author=" + author + ", viewCount=" + viewCount
-				+ ", regDate=" + regDate + "]";
+		return "BoardVo [no=" + no + ", title=" + title + ", author=" + author + ", content=" + content + ", viewCount="
+				+ viewCount + ", regDate=" + regDate + "]";
 	}
+
+
+	
 
 }

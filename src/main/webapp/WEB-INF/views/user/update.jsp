@@ -18,8 +18,7 @@
 			<div id="user">
 
 				<form id="join-form" name="joinForm" method="post"
-					action="${pageContext.servletContext.contextPath}/user">
-					<input type="hidden" name="a" value="update"> 
+					action="${pageContext.servletContext.contextPath}/user/update">
 					
 					<input id="no" name="no" type="hidden" value="${userVo.no }"> 
 					

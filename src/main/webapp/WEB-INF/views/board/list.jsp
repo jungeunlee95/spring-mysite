@@ -1,13 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%> 
-
-<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%-- <%
-	List<BoardVo> list = (List<BoardVo>) request.getAttribute("list");
-%> --%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,7 +32,7 @@
 				<c:forEach items='${list }' var='vo' varStatus='status'>		
 					<tr>
 						<td>[${count - status.index }]</td>
-						<td><a href="">${vo.title }</a></td>
+						<td><a href="${pageContext.servletContext.contextPath}/board/view/${vo.no}">${vo.title }</a></td>
 						<td>${vo.author }</td>
 						<td>${vo.viewCount }</td>
 						<td>${vo.regDate}</td>
@@ -46,9 +41,12 @@
 				</c:forEach>	
 
 				</table>
-				<div class="bottom">
-					<a href="" id="new-book">글쓰기</a>
-				</div>				
+				<c:if test="${not empty authUser }">
+					<div class="bottom">
+						<a href="${pageContext.servletContext.contextPath}/board/write" id="new-book">글쓰기</a>
+					</div>	
+				</c:if>
+							
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp"> 

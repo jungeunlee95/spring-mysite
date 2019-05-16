@@ -9,13 +9,12 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link href="${pageContext.servletContext.contextPath}/assets/css/guestbook.css" rel="stylesheet" type="text/css">
 </head>
-<body>
+<body> 
 	<div id="container">
 		<c:import url="/WEB-INF/views/includes/header.jsp"> </c:import>
 		<div id="content">
 			<div id="guestbook" class="delete-form">
-				<form method="post" action="${pageContext.servletContext.contextPath}/guestbook">
-					<input type='hidden' name="a" value="delete">
+				<form method="post" action="${pageContext.servletContext.contextPath}/guestbook/delete">
 					<input type='hidden' name="no" value="${no }">
 					<label>비밀번호</label>
 					<input type="password" name="password">

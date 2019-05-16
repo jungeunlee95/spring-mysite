@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.cafe24.mysite.repository.dao.UserDao;
 import com.cafe24.mysite.service.UserService;
 import com.cafe24.mysite.vo.UserVo;
 
@@ -71,6 +71,28 @@ public class UserController {
 		session.removeAttribute("authUser");
 		session.invalidate();
 		return "redirect:/";
+	}
+	
+	
+	@RequestMapping(value="/update/{no}", method=RequestMethod.GET)
+	public String update(@PathVariable(value="no") Long no, Model model) {
+		UserVo userVo = userService.getUser(no);
+		model.addAttribute("userVo", userVo);
+		return "user/update";
+	}
+	
+	@RequestMapping(value="/update", method=RequestMethod.POST)
+	public String update(@ModelAttribute UserVo userVo) {
+		userService.updateUser(userVo);
+		
+		return "redirect:/user/updatesuccess";
+	}
+	
+	@RequestMapping(value="/updatesuccess")
+	public String updatesuccess(HttpSession session) {
+		session.removeAttribute("authUser");
+		session.invalidate();
+		return "user/updatesuccess";
 	}
 }
 
