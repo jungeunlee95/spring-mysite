@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 import org.springframework.stereotype.Repository;
 
-import com.cafe24.mysitevo.UserVo;
+import com.cafe24.mysite.vo.UserVo;
 
 @Repository
 public class UserDao {
@@ -74,7 +74,7 @@ public class UserDao {
 
 	
 	// 로그인
-	public UserVo get(String email, String password) {
+	public UserVo get(UserVo userVo) {
 		UserVo result = null;
 
 		// 자원정리
@@ -91,8 +91,8 @@ public class UserDao {
 						+ " and password = ? ";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, email);
-			pstmt.setString(2, password);
+			pstmt.setString(1, userVo.getEmail());
+			pstmt.setString(2, userVo.getPassword());
 			
 			rs = pstmt.executeQuery();
 

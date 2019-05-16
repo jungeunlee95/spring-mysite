@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.cafe24.mysitevo.BoardVo;
+import com.cafe24.mysite.vo.BoardVo;
 
 @Repository
 public class BoardDao {

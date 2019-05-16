@@ -1,4 +1,4 @@
-package com.cafe24.mysitevo;
+package com.cafe24.mysite.vo;
 
 public class BoardVo {
 	private Long no;

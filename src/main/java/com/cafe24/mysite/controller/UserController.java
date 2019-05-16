@@ -11,14 +11,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cafe24.mysite.repository.dao.UserDao;
-import com.cafe24.mysitevo.UserVo;
+import com.cafe24.mysite.service.UserService;
+import com.cafe24.mysite.vo.UserVo;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
 
 	@Autowired
-	private UserDao userDao;
+	private UserService userService;
 
 
 	@RequestMapping(value="/join", method=RequestMethod.GET)
@@ -29,7 +30,7 @@ public class UserController {
 	
 	@RequestMapping(value="/join", method=RequestMethod.POST)
 	public String join(@ModelAttribute UserVo userVo) {
-		userDao.insert(userVo);
+		userService.join(userVo);
 		return "redirect:/user/joinsuccess";
 	}
 	
@@ -48,9 +49,11 @@ public class UserController {
 	public String login(@RequestParam(value="email", required=true, defaultValue="") String email, 
 						@RequestParam(value="password", required=true, defaultValue="") String password,
 						HttpSession session, 
-						Model model) {
+						Model model) {		
+		//UserVo authUser = userDao.get(email,password); 
+		UserVo userVo = new UserVo(email,password);
+		UserVo authUser = userService.getUser(userVo); 
 		
-		UserVo authUser = userDao.get(email,password); 
 		if(authUser == null) {
 			// data 넘기기
 			model.addAttribute("result","fail");

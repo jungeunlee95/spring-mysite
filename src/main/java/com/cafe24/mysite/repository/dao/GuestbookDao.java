@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.cafe24.mysitevo.GuestbookVo;
+import com.cafe24.mysite.vo.GuestbookVo;
 
 @Repository
 public class GuestbookDao {
