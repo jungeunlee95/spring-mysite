@@ -13,7 +13,7 @@
 				<li><a href="${pageContext.servletContext.contextPath}/user/join">회원가입</a></li>
 			</c:when>
 			<c:otherwise>
-				<li><a href="${pageContext.servletContext.contextPath}/user/update/${authUser.no}">회원정보수정</a></li>
+				<li><a href="${pageContext.servletContext.contextPath}/user/update">회원정보수정</a></li>
 				<li><a href="${pageContext.servletContext.contextPath}/user/logout">로그아웃</a></li>
 				<li>${authUser.getName() } 님 안녕하세요 ^^;</li>		
 			</c:otherwise>
