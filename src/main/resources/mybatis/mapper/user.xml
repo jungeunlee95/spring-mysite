@@ -39,7 +39,7 @@
 	]]>
 		<if test=" password != '' ">
 			<![CDATA[
-				password = #{password }
+				password = #{password },
 			]]>
 		</if>
 	<![CDATA[

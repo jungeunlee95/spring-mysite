@@ -5,7 +5,7 @@
 
 	<select id="getList" resultType="guestbookvo">
 	<![CDATA[
-		select no, name, contents, date_format(reg_date, '%Y-%m-%d %h:%i:%s')
+		select no, name, contents, date_format(reg_date, '%Y-%m-%d %h:%i:%s') as regDate
 		from guestbook
 		order by reg_date desc
 	]]>
@@ -13,7 +13,7 @@
 	
 	<select id="getList2" resultType="guestbookvo" parameterType='Long'>
 	<![CDATA[
-		select no, name, contents, date_format(reg_date, '%Y-%m-%d %h:%i:%s')
+		select no, name, contents, date_format(reg_date, '%Y-%m-%d %h:%i:%s') as regDate
 		from guestbook
 		order by reg_date desc
 	]]>
@@ -23,5 +23,20 @@
 	]]>
 	</if>
 	</select>
+	
+	<insert id="insert" parameterType="guestbookvo">
+	<![CDATA[
+		insert into guestbook  
+		values(null, #{name }, #{password }, #{contents }, now())
+	]]>
+	</insert>
+	
+	<delete id="delete" parameterType="guestbookvo">
+	<![CDATA[
+		delete from guestbook  
+		where no = #{no }
+		and password = #{password }
+	]]>
+	</delete>
 	
 </mapper>

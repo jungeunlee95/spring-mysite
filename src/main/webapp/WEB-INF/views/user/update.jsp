@@ -26,9 +26,7 @@
 					<input id="name" name="name" type="text" value="${userVo.name }"> 
 					
 					<label class="block-label" for="email">이메일</label> 
-					<input id="email" name="email" type="text" value="${userVo.email }"> 
-					
-					<input type="button" value="id 중복체크"> 
+					${userVo.email }
 					
 					<label class="block-label"> 비밀번호 </label> 
 					<input name="password" type="password" value="${userVo.password }">
