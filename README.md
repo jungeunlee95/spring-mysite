@@ -16,14 +16,15 @@ Tomcat에 프로젝트가 올라오면
 
  1. 리스너에서 ![1557995561234](assets/1557995561234.png)
 
-    contextInittialized 메소드를 를 통해 applicationContext.xml 를 읽어 **컨테이너를 만듦** ==> **BeanFactory**
-`this.context = createWebApplicationContext(servletContext);` 가 컨테이너 만드는거
+    contextInitialized 메소드를 를 통해 applicationContext.xml 를 읽어 **컨테이너를 만듦** ==> **BeanFactory**
+
+	`this.context = createWebApplicationContext(servletContext);` 가 컨테이너 만드는거
 	
 2. applicationContext.xml![1557995630182](assets/1557995630182.png)
-    
-    를 스캔하면서 service와 dao객체들을 생성하고 객체들의 의존 관계를 만들어줌! (@Service, @Repository,@Autowired,@Controller 등 어노테이션을 통해서)
+   
+    를 스캔하면서 service와 dao객체들을 생성하고 객체들의 의존 관계를 만들어줌! (@Service, @Repository,@Autowired 등 어노테이션을 통해서)
 
-#### fIlter 로딩
+#### filter 로딩
 
 ![1557995793614](assets/1557995793614.png)
 

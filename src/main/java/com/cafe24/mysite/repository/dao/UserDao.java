@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 import org.springframework.stereotype.Repository;
 
+import com.cafe24.mysite.exception.UserDaoException;
 import com.cafe24.mysite.vo.UserVo;
 
 @Repository
@@ -52,7 +53,7 @@ public class UserDao {
 			}
 			
 		} catch (SQLException e) {
-			System.out.println("Error : " + e);
+			throw new UserDaoException();
 		} finally {
 			try {
 				if (rs != null) {
@@ -74,7 +75,7 @@ public class UserDao {
 
 	
 	// 로그인
-	public UserVo get(UserVo userVo) {
+	public UserVo get(UserVo userVo) throws UserDaoException{
 		UserVo result = null;
 
 		// 자원정리
@@ -85,7 +86,7 @@ public class UserDao {
 		try {
 			conn = getConnection();
 
-			String sql = " select no, name "
+			String sql = " slect no, name "
 						+ " from user "
 						+ " where email = ? "
 						+ " and password = ? ";
@@ -107,7 +108,7 @@ public class UserDao {
 			}
 			
 		} catch (SQLException e) {
-			System.out.println("Error : " + e);
+			throw new UserDaoException(e.getMessage());
 		} finally {
 			try {
 				if (rs != null) {
