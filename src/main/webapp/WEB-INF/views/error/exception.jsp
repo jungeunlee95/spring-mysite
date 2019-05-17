@@ -7,9 +7,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>OOOOOOOOOOooops~~~~~~~~~~~~!</h1>
+	<h1>OOOOOOOOOOooops - ${uri }</h1>
 
 	<h2>예외 발생!!</h2>
+	<pre>
+		${exception }
+	</pre>
 
 </body>
 </html>

@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.cafe24.mysite.vo.BoardVo;
@@ -15,6 +18,9 @@ import com.cafe24.mysite.vo.GuestbookVo;
 
 @Repository
 public class BoardDao {
+	
+	@Autowired
+	private DataSource dataSource;
 	
 	public boolean update(BoardVo vo) {
 		Boolean result = false;
@@ -24,7 +30,7 @@ public class BoardDao {
 		ResultSet rs = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = " update board set title = ?, content=? " 
 						+ " where no = ? ";
@@ -68,7 +74,7 @@ public class BoardDao {
 		ResultSet rs = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = " select no, title, author, content, view_count, reg_date "
 						+ " from board " 
@@ -123,7 +129,7 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 
 			String sql = " insert into board values(null, ?, ?, ?, 0, now()) ";
@@ -164,7 +170,7 @@ public class BoardDao {
 		ResultSet rs = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = " select no, title, author, view_count, reg_date "
 						+ " from board "
@@ -210,23 +216,5 @@ public class BoardDao {
 
 		return result;
 	}
-	
-	private Connection getConnection() throws SQLException {
-		Connection conn = null;
-		
-		try {
-		
-			Class.forName("org.mariadb.jdbc.Driver");
-			String url = "jdbc:mariadb://192.168.1.52:3307/webdb";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
 
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패");
-		} finally {
-			
-		}
-
-		return conn;
-		
-	}
 }

@@ -36,28 +36,28 @@ public class BoardController {
 	
 	@RequestMapping(value="/write", method=RequestMethod.POST)
 	public String write(Model model, BoardVo boardVo) {
-		boardService.write(boardVo);
+		boardService.writeBoard(boardVo);
 		return "redirect:/board";
 	}
 	
 	@RequestMapping(value="/view/{no}")
 	public String view(@PathVariable(value="no") Long no, Model model) {
-		BoardVo boardVo = boardService.getView(no);
+		BoardVo boardVo = boardService.getBoardView(no);
 		model.addAttribute("boardVo", boardVo);
 		return "board/view";
 	}
 	
 	@RequestMapping(value="/modify/{no}", method=RequestMethod.GET)
 	public String modify(@PathVariable(value="no") Long no, Model model) {
-		BoardVo boardVo = boardService.getView(no);
+		BoardVo boardVo = boardService.getBoardView(no);
 		model.addAttribute("boardVo", boardVo);
 		return "board/modify";
 	}
 	
 	@RequestMapping(value="/modify", method=RequestMethod.POST)
 	public String modify(BoardVo vo, Model model) {
-		boardService.modify(vo);
-		BoardVo boardVo = boardService.getView(vo.getNo());
+		boardService.modifyBoard(vo);
+		BoardVo boardVo = boardService.getBoardView(vo.getNo());
 		model.addAttribute("boardVo", boardVo);
 		return "redirect:/board/view/"+vo.getNo();
 	}

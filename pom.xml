@@ -13,21 +13,21 @@
 	</properties>
 
 	<dependencies>
-	
-		<!-- Spring Core --> 
+
+		<!-- Spring Core -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		
+
 		<!-- Spring Web -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		
+
 		<!-- Spring Web MVC -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -35,19 +35,28 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 
-		<!-- jstl -->  
-		<dependency>  
+		<!-- Common DBCP -->
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+		</dependency> 
+
+		<!-- jstl -->
+		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
-		</dependency> 
-		
+		</dependency>
+
 		<!-- mariadb java client -->
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
 			<version>2.4.0</version>
 		</dependency> 
+
+
 
 	</dependencies>
 

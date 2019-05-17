@@ -1,11 +1,13 @@
 package com.cafe24.mysite.repository.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.cafe24.mysite.exception.UserDaoException;
@@ -13,6 +15,9 @@ import com.cafe24.mysite.vo.UserVo;
 
 @Repository
 public class UserDao {
+	
+	@Autowired
+	private DataSource dataSource;
 	
 	public UserDao() {
 		System.out.println("UserDao Constructor!!!!!");
@@ -27,7 +32,7 @@ public class UserDao {
 		ResultSet rs = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = " select no, name, password, email "
 						+ " from user "
@@ -84,9 +89,9 @@ public class UserDao {
 		ResultSet rs = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
-			String sql = " slect no, name "
+			String sql = " select no, name "
 						+ " from user "
 						+ " where email = ? "
 						+ " and password = ? ";
@@ -135,7 +140,7 @@ public class UserDao {
 		PreparedStatement pstmt = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 
 			String sql = " insert into user  " + 
@@ -176,7 +181,7 @@ public class UserDao {
 		PreparedStatement pstmt = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 
 			String sql = " update user set "
@@ -214,23 +219,5 @@ public class UserDao {
 		return result;
 
 	}
-	
-	private Connection getConnection() throws SQLException {
-		Connection conn = null;
-		
-		try {
-		
-			Class.forName("org.mariadb.jdbc.Driver");
-			String url = "jdbc:mariadb://192.168.1.52:3307/webdb";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
 
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패");
-		} finally {
-			
-		}
-
-		return conn;
-		
-	}
 }

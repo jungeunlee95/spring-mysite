@@ -18,15 +18,15 @@ public class BoardService {
 		return boardDao.getList();
 	}
 	
-	public boolean write(BoardVo vo) {
+	public boolean writeBoard(BoardVo vo) {
 		return boardDao.insert(vo);
 	}
 	
-	public BoardVo getView(Long no) {
+	public BoardVo getBoardView(Long no) {
 		return boardDao.getView(no);
 	}
 	
-	public boolean modify(BoardVo vo) {
+	public boolean modifyBoard(BoardVo vo) {
 		return boardDao.update(vo);
 	}
 	
