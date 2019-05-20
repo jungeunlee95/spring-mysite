@@ -31,12 +31,26 @@ public class BoardController {
 	
 	@RequestMapping(value="/write", method=RequestMethod.GET)
 	public String write() {
-		return "board/write";
+		return "board/write";			
+	}
+	
+	@RequestMapping(value="/write/{no}", method=RequestMethod.GET)
+	public String write(Model model, @PathVariable(value="no") Long no) {
+		model.addAttribute("groupNo", no);
+		return "board/write";					
 	}
 	
 	@RequestMapping(value="/write", method=RequestMethod.POST)
 	public String write(Model model, BoardVo boardVo) {
-		boardService.writeBoard(boardVo);
+		if(boardVo.getGroupNo() == null) {
+			boardService.writeBoard(boardVo);			
+		}else {
+			BoardVo master = boardService.getBoardView(boardVo.getGroupNo());
+			boardVo.setGroupNo(master.getGroupNo());
+			boardVo.setOrderNo(master.getOrderNo());
+			boardVo.setDepth(master.getDepth());
+			boardService.writeReply(boardVo);									
+		}
 		return "redirect:/board";
 	}
 	

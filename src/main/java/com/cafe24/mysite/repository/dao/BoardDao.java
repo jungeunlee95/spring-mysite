@@ -24,7 +24,21 @@ public class BoardDao {
 	}
 
 	public boolean insert(BoardVo vo) {
-		return 1==sqlSession.insert("board.insert", vo);
+		boolean result=true;
+		List<BoardVo> first = sqlSession.selectList("board.getList");
+		if(first.size()==0) {
+			result = 1==sqlSession.insert("board.insertFirst", vo);
+		}else {
+			result = 1==sqlSession.insert("board.insert", vo);			
+		}
+		return result;
+	}
+	
+	public boolean reply(BoardVo vo) {
+		boolean result=true;
+		sqlSession.insert("board.replyOrderNo", vo);	
+		sqlSession.insert("board.reply", vo);	
+		return result;
 	}
 	
 	public List<BoardVo> getList() {

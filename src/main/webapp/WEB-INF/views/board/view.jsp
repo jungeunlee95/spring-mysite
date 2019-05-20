@@ -22,6 +22,12 @@
 					<tr>
 						<th colspan="2">글보기</th>
 					</tr>
+					
+					<tr>
+						<td class="label">글번호</td>
+						<td>${boardVo.no }</td>
+					</tr>
+					
 					<tr>
 						<td class="label">제목</td>
 						<td>${boardVo.title }</td>
@@ -41,6 +47,7 @@
 				</table>
 				<div class="bottom">
 					<a href="${pageContext.servletContext.contextPath}/board">글목록</a>
+					<a href="${pageContext.servletContext.contextPath}/board/write/${boardVo.no }">답글</a>
 					<a href="${pageContext.servletContext.contextPath}/board/modify/${boardVo.no}">글수정</a>
 				</div>
 			</div>

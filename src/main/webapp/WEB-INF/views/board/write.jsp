@@ -15,7 +15,12 @@
 		<jsp:include page="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="${pageContext.servletContext.contextPath}/board/write">
+				<form class="board-form" method="post" 
+					action="${pageContext.servletContext.contextPath}/board/write">				
+					
+					<c:if test="${not empty groupNo }">
+						<input type='hidden' name="groupNo" value="${groupNo }">
+					</c:if>
 					<input type='hidden' name="author" value="${authUser.name }">
 					<table class="tbl-ex">
 						<tr>

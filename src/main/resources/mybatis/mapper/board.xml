@@ -5,21 +5,50 @@
 
 	<select id="getList" resultType="boardvo">
 	<![CDATA[
-		select no, title, author, view_count as viewCount, reg_date as regDate 
+		select no, title, author, content, view_count viewCount, 
+				reg_date regDate, update_date updateDate, group_no groupNo, 
+				order_no orderNo, depth, master 
 		from board 
-		order by reg_date desc
+		order by group_no desc, master desc, order_no
 	]]>
 	</select>
-
-	<insert id="insert" parameterType="boardvo">
+	
+	<!-- 첫글 작성 -->
+	<insert id="insertFirst" parameterType="boardvo">
 	<![CDATA[
-		insert into board values(null, #{title }, #{author }, #{content }, 0, now())
+	insert into board values(null, #{title }, #{author } , #{content }, 0, now(), now(),
+	 1, 1, 0, 1)
 	]]>
 	</insert>
 	
+	<!-- 새글 작성 -->
+	<insert id="insert" parameterType="boardvo">
+	<![CDATA[
+	insert into board values(null, #{title }, #{author } , #{content }, 0, now(), now(),
+	 (select max(group_no)+1 from board board_as), 1, 0, 1)
+	]]>
+	</insert>
+	
+	<!-- 답글 작성 : 이전 글 order_no +1 -->
+	<insert id="replyOrderNo" parameterType="boardvo">
+	<![CDATA[
+		update board set order_no = order_no+1 where order_no >= #{orderNo }+1
+	]]>
+	</insert>
+		<!-- 답글 작성 -->
+	<insert id="reply" parameterType="boardvo">
+	<![CDATA[
+	 insert into board values(null, #{title }, #{author } , #{content }, 0, now(), now(),
+	  #{groupNo }, #{orderNo }+1 , #{depth }+1, 0)
+	]]>
+	</insert>
+	
+	
 	<select id="getView" parameterType="long" resultType="boardvo">
 	<![CDATA[
-		select no, title, author, content, view_count as viewCount, reg_date as regDate 
+		select no, title, author, content, view_count viewCount, 
+				reg_date regDate, update_date updateDate, group_no groupNo, 
+				order_no orderNo, depth, master 
 		from board 
 		where no = #{no }
 	]]>

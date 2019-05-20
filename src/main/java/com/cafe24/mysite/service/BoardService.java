@@ -22,6 +22,10 @@ public class BoardService {
 		return boardDao.insert(vo);
 	}
 	
+	public boolean writeReply(BoardVo vo) {
+		return boardDao.reply(vo);
+	}
+	
 	public BoardVo getBoardView(Long no) {
 		return boardDao.getView(no);
 	}
