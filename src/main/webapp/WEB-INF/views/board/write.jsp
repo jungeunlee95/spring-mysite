@@ -21,7 +21,7 @@
 					<c:if test="${not empty groupNo }">
 						<input type='hidden' name="groupNo" value="${groupNo }">
 					</c:if>
-					<input type='hidden' name="author" value="${authUser.name }">
+					<input type='hidden' name="userNo" value="${authUser.no }">
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글쓰기</th>

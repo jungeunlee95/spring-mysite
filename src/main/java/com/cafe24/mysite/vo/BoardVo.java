@@ -2,6 +2,7 @@ package com.cafe24.mysite.vo;
 
 public class BoardVo {
 	private Long no;
+	private Long userNo;
 	private String title;
 	private String author;
 	private String content;
@@ -97,11 +98,19 @@ public class BoardVo {
 		this.depth = depth;
 	}
 
+	public Long getUserNo() {
+		return userNo;
+	}
+
+	public void setUserNo(Long userNo) {
+		this.userNo = userNo;
+	}
+
 	@Override
 	public String toString() {
-		return "BoardVo [no=" + no + ", title=" + title + ", author=" + author + ", content=" + content + ", viewCount="
-				+ viewCount + ", regDate=" + regDate + ", updateDate=" + updateDate + ", groupNo=" + groupNo
-				+ ", orderNo=" + orderNo + ", depth=" + depth + "]";
+		return "BoardVo [no=" + no + ", userNo=" + userNo + ", title=" + title + ", author=" + author + ", content="
+				+ content + ", viewCount=" + viewCount + ", regDate=" + regDate + ", updateDate=" + updateDate
+				+ ", groupNo=" + groupNo + ", orderNo=" + orderNo + ", depth=" + depth + "]";
 	}
 
 }

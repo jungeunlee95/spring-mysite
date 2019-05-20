@@ -5,10 +5,11 @@
 
 	<select id="getList" resultType="boardvo">
 	<![CDATA[
-		select no, title, author, content, view_count viewCount, 
-				reg_date regDate, update_date updateDate, group_no groupNo, 
-				order_no orderNo, depth, master 
-		from board 
+		select b.no, b.title, u.name author, b.content, b.view_count viewCount, 
+				b.reg_date regDate, b.update_date updateDate, b.group_no groupNo, 
+				b.order_no orderNo, b.depth, b.master, u.no as userNo
+		from board b, user u
+		where b.user_no = u.no
 		order by group_no desc, master desc, order_no
 	]]>
 	</select>
@@ -16,7 +17,7 @@
 	<!-- 첫글 작성 -->
 	<insert id="insertFirst" parameterType="boardvo">
 	<![CDATA[
-	insert into board values(null, #{title }, #{author } , #{content }, 0, now(), now(),
+	insert into board values(null, #{title }, #{userNo } , #{content }, 0, now(), now(),
 	 1, 1, 0, 1)
 	]]>
 	</insert>
@@ -24,7 +25,7 @@
 	<!-- 새글 작성 -->
 	<insert id="insert" parameterType="boardvo">
 	<![CDATA[
-	insert into board values(null, #{title }, #{author } , #{content }, 0, now(), now(),
+	insert into board values(null, #{title }, #{userNo } , #{content }, 0, now(), now(),
 	 (select max(group_no)+1 from board board_as), 1, 0, 1)
 	]]>
 	</insert>
@@ -38,7 +39,7 @@
 		<!-- 답글 작성 -->
 	<insert id="reply" parameterType="boardvo">
 	<![CDATA[
-	 insert into board values(null, #{title }, #{author } , #{content }, 0, now(), now(),
+	 insert into board values(null, #{title }, #{userNo } , #{content }, 0, now(), now(),
 	  #{groupNo }, #{orderNo }+1 , #{depth }+1, 0)
 	]]>
 	</insert>
@@ -46,11 +47,12 @@
 	
 	<select id="getView" parameterType="long" resultType="boardvo">
 	<![CDATA[
-		select no, title, author, content, view_count viewCount, 
-				reg_date regDate, update_date updateDate, group_no groupNo, 
-				order_no orderNo, depth, master 
-		from board 
-		where no = #{no }
+		select b.no, b.title, u.name author, b.content, b.view_count viewCount, 
+				b.reg_date regDate, b.update_date updateDate, b.group_no groupNo, 
+				b.order_no orderNo, b.depth, b.master, u.no as userNo
+		from board b, user u
+		where b.user_no = u.no
+		and b.no = #{no }	
 	]]>
 	</select>
 	
