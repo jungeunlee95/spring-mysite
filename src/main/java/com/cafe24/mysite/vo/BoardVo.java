@@ -12,6 +12,7 @@ public class BoardVo {
 	private Long groupNo;
 	private Long orderNo;
 	private Long depth;
+	private Long master;
 
 	public BoardVo() {
 		super();
@@ -106,11 +107,21 @@ public class BoardVo {
 		this.userNo = userNo;
 	}
 
+	public Long getMaster() {
+		return master;
+	}
+
+	public void setMaster(Long master) {
+		this.master = master;
+	}
+
 	@Override
 	public String toString() {
 		return "BoardVo [no=" + no + ", userNo=" + userNo + ", title=" + title + ", author=" + author + ", content="
 				+ content + ", viewCount=" + viewCount + ", regDate=" + regDate + ", updateDate=" + updateDate
-				+ ", groupNo=" + groupNo + ", orderNo=" + orderNo + ", depth=" + depth + "]";
+				+ ", groupNo=" + groupNo + ", orderNo=" + orderNo + ", depth=" + depth + ", master=" + master + "]";
 	}
+
+
 
 }
