@@ -1,10 +1,9 @@
 package com.cafe24.mysite.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,7 +25,6 @@ public class BoardController {
 		model.addAttribute("list", boardService.listFind(fCri));
 		PagingMaker pagingMaker = new PagingMaker();
 		pagingMaker.setCri(fCri);
-
 		pagingMaker.setTotalData(boardService.findCountData(fCri));
 		model.addAttribute("findCountData", boardService.findCountData(fCri));
 
@@ -61,7 +59,7 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/view/{no}")
-	public String view(@PathVariable(value = "no") Long no, Model model) {
+	public String view(@PathVariable(value = "no") Long no, @ModelAttribute("fCri") FindCriteria fCri, Model model) {
 		BoardVo boardVo = boardService.getBoardView(no);
 		model.addAttribute("boardVo", boardVo);
 		return "board/view";

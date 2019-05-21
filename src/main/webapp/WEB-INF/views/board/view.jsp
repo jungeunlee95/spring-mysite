@@ -58,7 +58,7 @@
 					</tr>
 				</table>
 				<div class="bottom">
-					<a href="${pageContext.servletContext.contextPath}/board">글목록</a>
+					<a href="${pageContext.servletContext.contextPath}/board?page=${fCri.page}&numPerPage=${fCri.numPerPage}&findType=${fCri.findType }&keyword=${fCri.keyword }">글목록</a>
 					<c:if test="${not empty authUser }">
 						<a href="${pageContext.servletContext.contextPath}/board/write/${boardVo.no }">답글</a>
 					</c:if>

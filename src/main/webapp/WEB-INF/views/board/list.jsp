@@ -60,13 +60,13 @@
 						<td>[${count - status.index }]</td>
 						<c:if test="${vo.depth == 0}">
 							<td style="text-align: left;">
-								<a href="${pageContext.servletContext.contextPath}/board/view/${vo.no}">${vo.title }</a>
+								<a href="${pageContext.servletContext.contextPath}/board/view/${vo.no}${pagingMaker.makeFind(pagingMaker.cri.page)}">${vo.title }</a>
 							</td>
 						</c:if>
 						<c:if test="${vo.depth != 0}">
 							<td style="text-align: left; padding-left: ${15*vo.depth}px;">
 								<img src="${pageContext.servletContext.contextPath }/assets/images/reply.png">
-								<a href="${pageContext.servletContext.contextPath}/board/view/${vo.no}">${vo.title }</a>
+								<a href="${pageContext.servletContext.contextPath}/board/view/${vo.no}${pagingMaker.makeFind(pagingMaker.cri.page)}">${vo.title }</a>
 							</td>
 						</c:if> 
 						<td>${vo.author }</td>   

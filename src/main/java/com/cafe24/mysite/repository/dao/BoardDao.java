@@ -56,8 +56,9 @@ public class BoardDao {
 
 	public List<BoardVo> listFind(FindCriteria findCri) {
 		List<BoardVo> result = sqlSession.selectList("board.listFind", findCri);
-		return result;
-	}
+		
+		return result; 
+	} 
 
 	public int findCountData(FindCriteria findCri){
 		return sqlSession.selectOne("board.findCount", findCri);

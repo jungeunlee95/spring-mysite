@@ -5,7 +5,8 @@
 		<typeAlias alias="uservo" type="com.cafe24.mysite.vo.UserVo"/>
 		<typeAlias alias="guestbookvo" type="com.cafe24.mysite.vo.GuestbookVo"/>
 		<typeAlias alias="boardvo" type="com.cafe24.mysite.vo.BoardVo"/>
-	</typeAliases>
+		<typeAlias alias="fcri" type="com.cafe24.mysite.vo.FindCriteria"/>
+	</typeAliases> 
 	<mappers>
 		<mapper resource="mybatis/mapper/user.xml" />
 		<mapper resource="mybatis/mapper/guestbook.xml" />

@@ -25,6 +25,7 @@ public class FindCriteria extends PageCriteria{
 	public String toString() {
 		return super.toString() +"FindCriteria [findType=" + findType + ", keyword=" + keyword + "]";
 	}
+
 	
 	
 	

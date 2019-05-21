@@ -5,33 +5,40 @@
 
 	<!-- 제목 검색만하고 나중에 더 추가 -->
 	<sql id="findSQL">
-		<where>
-			<if test="findType != null and findType =='T'.toString()">
-				and title like '%#{keyword}%'
-			</if>
-		</where>
+		<if test="findType != null and findType =='T'.toString()">
+			and b.title like CONCAT('%',#{keyword },'%')
+		</if>
 	</sql> 
+	
+		<!-- 제목 검색만하고 나중에 더 추가 -->
+	<sql id="findSQLCount">
+	<where>
+		<if test="findType != null and findType =='T'.toString()">
+			title like CONCAT('%',#{keyword },'%')
+		</if>
+	</where>  
+	</sql>
   
   	 <!-- 검색기능 + 페이징 구현  -->
-   <select id="listFind" resultType="boardvo">
+   <select id="listFind" resultType="boardvo" parameterType="fcri">
   	 <![CDATA[
 		select b.no, b.title, u.name author, b.content, b.view_count viewCount, 
 				b.reg_date regDate, b.update_date updateDate, b.group_no groupNo, 
 				b.order_no orderNo, b.depth, b.master, u.no as userNo
 		from board b, user u
 		where b.user_no = u.no
-	]]>
+	]]> 
         <include refid="findSQL" />
-     <![CDATA[         
+     <![CDATA[          
         order by group_no desc, master desc, order_no
          limit #{startPage }, #{numPerPage }
-     ]]>
-    </select>
-    
+     ]]> 
+    </select>  
+     
     <select id = "findCount" resultType = "int">
 	     select count(no)
 	     from board
-	     <include refid="findSQL" /> 
+	     <include refid="findSQLCount" /> 
   	</select>
     
     
@@ -46,7 +53,7 @@
 		where b.user_no = u.no
 		order by group_no desc, master desc, order_no
 	]]>
-	</select> 
+	</select>
 	
 	<!-- 첫글 작성 -->
 	<insert id="insertFirst" parameterType="boardvo">
