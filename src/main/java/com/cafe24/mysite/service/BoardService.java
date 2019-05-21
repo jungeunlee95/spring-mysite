@@ -34,6 +34,10 @@ public class BoardService {
 	public boolean writeBoard(BoardVo vo) {
 		return boardDao.insert(vo);
 	}
+	
+	public boolean viewCount(Long no) {
+		return boardDao.viewCount(no);
+	}
 
 	public boolean writeReply(BoardVo vo) {
 		return boardDao.reply(vo);

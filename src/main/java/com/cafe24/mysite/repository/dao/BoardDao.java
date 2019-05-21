@@ -17,6 +17,10 @@ public class BoardDao {
 	public boolean update(BoardVo vo) {
 		return 1 == sqlSession.update("board.update", vo);
 	}
+	
+	public boolean viewCount(Long no) {
+		return 1 == sqlSession.update("board.viewCount", no);
+	}
 
 	public BoardVo getView(Long no) {
 		BoardVo result = sqlSession.selectOne("board.getView", no);

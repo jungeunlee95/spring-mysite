@@ -40,10 +40,16 @@
 	     from board
 	     <include refid="findSQLCount" /> 
   	</select>
+     
+     
+     
+     
+    <select id = "viewCount" resultType = "long">
+	      update board 
+	      set view_count = view_count + 1 
+	      where no = #{no }
+  	</select>
     
-    
-    
-  
 	<select id="getList" resultType="boardvo">
 	<![CDATA[
 		select b.no, b.title, u.name author, b.content, b.view_count viewCount, 

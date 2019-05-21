@@ -1,5 +1,10 @@
 package com.cafe24.mysite.controller;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,9 +64,39 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/view/{no}")
-	public String view(@PathVariable(value = "no") Long no, @ModelAttribute("fCri") FindCriteria fCri, Model model) {
+	public String view(@PathVariable(value = "no") Long no,
+					   @ModelAttribute("fCri") FindCriteria fCri, 
+					   Model model,
+					   HttpServletRequest request, 
+					   HttpServletResponse response, 
+					   HttpSession session) {
 		BoardVo boardVo = boardService.getBoardView(no);
 		model.addAttribute("boardVo", boardVo);
+		
+		// 조회수 쿠키 검사
+		Cookie cookies[] = request.getCookies();
+		// 비교 쿠기
+		Cookie viewCookie = null;
+		// 쿠키가 있을 경우
+		if(cookies != null && cookies.length > 0) {
+			for(Cookie cookie : cookies) {
+				if(cookie.getName().equals("cookie"+no)) {
+					viewCookie = cookie;
+				}
+			} 
+		}
+		// 만일 viewCookie가 null일 경우 쿠키를 생성해서 조회수 증가 로직을 처리함.
+		// viewCookie가 null이 아닐경우 쿠키가 있으므로 조회수 증가 로직을 처리하지 않음.
+        if (viewCookie == null) {         
+            // 쿠키 생성(이름, 값)
+            Cookie newCookie = new Cookie("cookie"+no, "|" + no + "|"); 
+            newCookie.setMaxAge(24*60*60);
+            // 쿠키 추가
+            response.addCookie(newCookie);
+            // 쿠키를 추가 시키고 조회수 증가시킴
+            boardService.viewCount(no);
+        }
+		
 		return "board/view";
 	}
 
