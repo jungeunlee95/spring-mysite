@@ -1,5 +1,7 @@
 package com.cafe24.mysite.vo;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -16,8 +18,13 @@ public class UserVo {
 	@NotEmpty
 	private String email;
 	
+	@NotNull
+	@Length(min=3)
 	private String password;
+	
+	@NotNull
 	private String gender;
+	
 	private String regDate;
 
 	public UserVo() {

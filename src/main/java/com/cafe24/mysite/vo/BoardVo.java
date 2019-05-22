@@ -1,11 +1,23 @@
 package com.cafe24.mysite.vo;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class BoardVo {
 	private Long no;
+	
+	@NotNull
 	private Long userNo;
+	
+	@NotEmpty
 	private String title;
+	
 	private String author;
+	
+	@NotEmpty
 	private String content;
+	
 	private Long viewCount;
 	private String regDate;
 	private String updateDate;

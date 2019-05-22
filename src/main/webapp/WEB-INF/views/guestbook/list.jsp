@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%
 	pageContext.setAttribute("newline", "\n");
 %>
@@ -21,7 +22,8 @@
 		</c:import>
 		<div id="content">
 			<div id="guestbook">
-				<form
+				<form:form
+					modelAttribute="guestbookVo"
 					action="${pageContext.servletContext.contextPath}/guestbook/add"
 					method="post">
 					<table>
@@ -30,25 +32,37 @@
 							<td>
 							<c:choose>
 								<c:when test='${empty authUser }'>
-									<input type="text" name="name">
-								</c:when>
+									<form:input path="name"/>
+										<p style="font-weight: bold; color: red; text-align: left; padding: 0;">
+											<form:errors path="name" />
+										</p>
+									</c:when>
 								<c:otherwise>
-								<input type="text" name="name" value="${authUser.name }" readonly>
-									
+								<input type="text" name="name" value="${authUser.name }" readonly>	
 								</c:otherwise>
 							</c:choose>
 							</td>
 							<td>비밀번호</td>
-							<td><input type="password" name="password"></td>
+							<td>
+								<form:password path="password"/>
+								<p style="font-weight: bold; color: red; text-align: left; padding: 0;">
+									<form:errors path="password" />
+								</p>
+							</td>
 						</tr>
 						<tr>
-							<td colspan=4><textarea name="contents" id="contents"></textarea></td>
+							<td colspan=4>
+							<form:textarea path="contents"/>
+							<p style="font-weight: bold; color: red; text-align: left; padding: 0;">
+								<form:errors path="contents" />
+							</p>
+							</td>
 						</tr>
 						<tr>
 							<td colspan=4 align=right><input type="submit" value=" 확인 "></td>
 						</tr>
 					</table>
-				</form>
+				</form:form>
 
 				<c:set var='count' value='${fn:length(list) }' />
 				<c:forEach items='${list }' var='vo' varStatus='status'>

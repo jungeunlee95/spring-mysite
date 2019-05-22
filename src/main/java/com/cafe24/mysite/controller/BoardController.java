@@ -1,13 +1,18 @@
 package com.cafe24.mysite.controller;
 
+import java.util.List;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +22,7 @@ import com.cafe24.mysite.service.BoardService;
 import com.cafe24.mysite.vo.BoardVo;
 import com.cafe24.mysite.vo.FindCriteria;
 import com.cafe24.mysite.vo.PagingMaker;
+import com.cafe24.mysite.vo.UserVo;
 
 @Controller
 @RequestMapping("/board")
@@ -39,26 +45,39 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
-	public String write() {
+	public String write(@ModelAttribute BoardVo boardVo) {
 		return "board/write";
 	}
 
+	//답글용
 	@RequestMapping(value = "/write/{no}", method = RequestMethod.GET)
 	public String write(Model model, @PathVariable(value = "no") Long no) {
 		model.addAttribute("groupNo", no);
 		return "board/write";
 	}
-
+	
+	// 글쓰기
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
-	public String write(Model model, BoardVo boardVo) {
-		if (boardVo.getGroupNo() == null) {
-			boardService.writeBoard(boardVo);
-		} else {
-			BoardVo master = boardService.getBoardView(boardVo.getGroupNo());
-			boardVo.setGroupNo(master.getGroupNo());
-			boardVo.setOrderNo(master.getOrderNo());
-			boardVo.setDepth(master.getDepth());
-			boardService.writeReply(boardVo);
+	public String write(Model model, 
+						@ModelAttribute @Valid BoardVo boardVo,
+						BindingResult result) {
+		if (result.hasErrors()) {
+			List<ObjectError> list =  result.getAllErrors();
+			for(ObjectError error : list) {
+				System.out.println(error);
+			}
+			model.addAllAttributes(result.getModel());
+			return "board/write";
+		}else {
+			if (boardVo.getGroupNo() == null) {
+				boardService.writeBoard(boardVo);
+			} else {
+				BoardVo master = boardService.getBoardView(boardVo.getGroupNo());
+				boardVo.setGroupNo(master.getGroupNo());
+				boardVo.setOrderNo(master.getOrderNo());
+				boardVo.setDepth(master.getDepth());
+				boardService.writeReply(boardVo);
+			}
 		}
 		return "redirect:/board";
 	}

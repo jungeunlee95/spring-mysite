@@ -2,13 +2,17 @@ package com.cafe24.mysite.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cafe24.mysite.service.GuestbookService;
 import com.cafe24.mysite.vo.GuestbookVo;
@@ -21,15 +25,26 @@ public class GuestbookController {
 	private GuestbookService guestbookService;
 	
 	@RequestMapping(value="")
-	public String list(Model model) {
+	public String list(Model model, @ModelAttribute GuestbookVo guestbookVo) {
 		List<GuestbookVo> list = guestbookService.getList();
 		model.addAttribute("list", list);
-		return "guestbook/list";
+		return "guestbook/list"; 
 	}
 	
 	@RequestMapping(value="/add")
-	public String add(GuestbookVo vo) {
-		guestbookService.addGuestbook(vo);
+	public String add(@ModelAttribute @Valid GuestbookVo guestbookVo, 
+					  BindingResult result, Model model) {
+		if(result.hasErrors()) {
+			List<ObjectError> list =  result.getAllErrors();
+			for(ObjectError error : list) {
+				System.out.println(error);
+			}
+			List<GuestbookVo> list2 = guestbookService.getList();
+			model.addAttribute("list", list2);
+			model.addAllAttributes(result.getModel());
+			return "guestbook/list";
+		}
+		guestbookService.addGuestbook(guestbookVo);
 		return "redirect:/guestbook";
 	}
 	
