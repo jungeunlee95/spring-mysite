@@ -3,6 +3,7 @@ package com.cafe24.mysite.repository.dao;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StopWatch;
 
 import com.cafe24.mysite.exception.UserDaoException;
 import com.cafe24.mysite.vo.UserVo;
@@ -12,7 +13,7 @@ public class UserDao {
 	@Autowired 
 	private SqlSession sqlSession;
 	
-	public UserVo get(String email) {
+	public UserVo get(String email) {	
 		return sqlSession.selectOne("user.getByEmail", email);
 	}
 	

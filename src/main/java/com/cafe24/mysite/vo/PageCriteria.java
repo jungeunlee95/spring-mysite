@@ -4,7 +4,6 @@ public class PageCriteria {
 	
 	private int page;  //시작페이지를 가르킨다.
 	private int numPerPage; //페이지당 넘버를 말한다.
-	private int startPage; //페이지당 넘버를 말한다.
 	
 	
 	public PageCriteria() {

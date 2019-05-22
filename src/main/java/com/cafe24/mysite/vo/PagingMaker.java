@@ -59,7 +59,6 @@ public class PagingMaker {
 			.queryParam("keyword", ((FindCriteria)cri).getKeyword())
 			.build();
 		
-		
 		return uriComponents.toString();
 
 	}

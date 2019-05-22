@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%> 
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>  
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -8,8 +9,7 @@
 <head>
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<link href="${pageContext.servletContext.contextPath}/assets/css/user.css"
-	rel="stylesheet" type="text/css">
+<link href="${pageContext.servletContext.contextPath}/assets/css/user.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.servletContext.contextPath}/assets/js/jquery/jquery-1.9.0.js"></script>
 <script>
 	$(function(){
@@ -58,13 +58,33 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"> </c:import>
 		<div id="content">
 			<div id="user">
-
 				<form id="join-form" name="joinForm" method="post"
 					action="${pageContext.servletContext.contextPath}/user/join">
 				<label class="block-label" for="name">이름</label> 
-				<input id="name" name="name" type="text" value=""> 
+				<input id="name" name="name" type="text" value="">
+				<spring:hasBindErrors name="userVo">
+				    <c:if test="${errors.hasFieldErrors('name') }">
+				    <br>
+					<p style="font-weight: bold; color: red; text-align: left; padding: 0;">
+				            <spring:message 
+					     code="${errors.getFieldError( 'name' ).codes[0] }" 	
+					     text="${errors.getFieldError( 'name' ).defaultMessage }" />
+				    </p>
+				   </c:if>
+				</spring:hasBindErrors>
+
 				<label class="block-label" for="email">이메일</label> 
 				<input id="email" name="email" type="text" value=""> 
+				<spring:hasBindErrors name="userVo">
+				    <c:if test="${errors.hasFieldErrors('email') }">
+				    <br>
+					<p style="font-weight: bold; color: red; text-align: left; padding: 0;">
+				            <spring:message 
+					     code="${errors.getFieldError( 'email' ).codes[0] }" 	
+					     text="${errors.getFieldError( 'email' ).defaultMessage }" />
+				   </p>
+				   </c:if>
+				</spring:hasBindErrors>
 				
 				<input type="button" id="check-button" value="이메일 중복체크"> 
 				<img src="${pageContext.servletContext.contextPath}/assets/images/check.png" 
