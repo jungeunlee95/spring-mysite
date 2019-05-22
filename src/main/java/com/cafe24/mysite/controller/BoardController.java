@@ -18,11 +18,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.cafe24.mysite.dto.FindCriteria;
+import com.cafe24.mysite.dto.PagingMaker;
 import com.cafe24.mysite.service.BoardService;
 import com.cafe24.mysite.vo.BoardVo;
-import com.cafe24.mysite.vo.FindCriteria;
-import com.cafe24.mysite.vo.PagingMaker;
-import com.cafe24.mysite.vo.UserVo;
 
 @Controller
 @RequestMapping("/board")
@@ -49,16 +48,17 @@ public class BoardController {
 		return "board/write";
 	}
 
-	//답글용
 	@RequestMapping(value = "/write/{no}", method = RequestMethod.GET)
-	public String write(Model model, @PathVariable(value = "no") Long no) {
+	public String write(@ModelAttribute("fCri") FindCriteria fCri, Model model, 
+			@PathVariable(value = "no") Long no,
+			@ModelAttribute BoardVo boardVo) {
 		model.addAttribute("groupNo", no);
 		return "board/write";
 	}
-	
-	// 글쓰기
+
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
-	public String write(Model model, 
+	public String write(@ModelAttribute("fCri") FindCriteria fCri,
+						Model model,
 						@ModelAttribute @Valid BoardVo boardVo,
 						BindingResult result) {
 		if (result.hasErrors()) {
@@ -66,8 +66,11 @@ public class BoardController {
 			for(ObjectError error : list) {
 				System.out.println(error);
 			}
+			if(boardVo.getGroupNo()!=null) {
+				model.addAttribute("groupNo", boardVo.getGroupNo());
+			}
 			model.addAllAttributes(result.getModel());
-			return "board/write";
+			return "board/write";					
 		}else {
 			if (boardVo.getGroupNo() == null) {
 				boardService.writeBoard(boardVo);
@@ -78,8 +81,8 @@ public class BoardController {
 				boardVo.setDepth(master.getDepth());
 				boardService.writeReply(boardVo);
 			}
+			return "redirect:/board";
 		}
-		return "redirect:/board";
 	}
 
 	@RequestMapping(value = "/view/{no}")
@@ -120,11 +123,10 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/delete/{no}")
-	public String delete(@PathVariable(value = "no") Long no, Model model) {
+	public String delete(@PathVariable(value = "no") Long no, Model model,
+						 @ModelAttribute("fCri") FindCriteria fCri) {
 		Boolean result = null;
-
 		BoardVo boardVo = boardService.getBoardView(no);
-		System.out.println(boardVo + "###");
 		if (boardVo.getMaster() == 1) {
 			result = boardService.deleteMaster(boardVo.getGroupNo());
 		} else {
@@ -136,14 +138,14 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/modify/{no}", method = RequestMethod.GET)
-	public String modify(@PathVariable(value = "no") Long no, Model model) {
+	public String modify(@PathVariable(value = "no") Long no, Model model, @ModelAttribute("fCri") FindCriteria fCri) {
 		BoardVo boardVo = boardService.getBoardView(no);
 		model.addAttribute("boardVo", boardVo);
 		return "board/modify";
 	}
 
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
-	public String modify(BoardVo vo, Model model) {
+	public String modify(BoardVo vo, Model model, @ModelAttribute("fCri") FindCriteria fCri) {
 		boardService.modifyBoard(vo);
 		BoardVo boardVo = boardService.getBoardView(vo.getNo());
 		model.addAttribute("boardVo", boardVo);

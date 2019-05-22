@@ -1,4 +1,4 @@
-package com.cafe24.mysite.vo;
+package com.cafe24.mysite.dto;
 
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;

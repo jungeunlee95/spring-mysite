@@ -1,4 +1,4 @@
-package com.cafe24.mysite.vo;
+package com.cafe24.mysite.dto;
 
 public class PageCriteria {
 	

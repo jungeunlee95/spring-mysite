@@ -6,8 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.cafe24.mysite.dto.FindCriteria;
 import com.cafe24.mysite.vo.BoardVo;
-import com.cafe24.mysite.vo.FindCriteria;
 
 @Repository
 public class BoardDao {
@@ -32,7 +32,7 @@ public class BoardDao {
 	}
 
 	public boolean deleteMaster(Long no) {
-		return 1 == sqlSession.delete("board.deleteMaster", no);
+		return 0 != sqlSession.delete("board.deleteMaster", no);
 	}
 
 	public boolean insert(BoardVo vo) {

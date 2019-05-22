@@ -37,7 +37,7 @@
 						</tr>
 					</table>
 					<div class="bottom">
-						<a href="${pageContext.servletContext.contextPath}/board/view/${boardVo.no}">취소</a>
+						<a href="${pageContext.servletContext.contextPath}/board/view/${boardVo.no }?page=${fCri.page}&numPerPage=${fCri.numPerPage}&findType=${fCri.findType }&keyword=${fCri.keyword }">취소</a>
 						<input type="submit" value="수정">
 					</div>
 				</form>				

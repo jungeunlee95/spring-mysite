@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cafe24.mysite.dto.FindCriteria;
 import com.cafe24.mysite.repository.dao.BoardDao;
 import com.cafe24.mysite.vo.BoardVo;
-import com.cafe24.mysite.vo.FindCriteria;
 
 @Service
 public class BoardService {
@@ -19,8 +19,7 @@ public class BoardService {
 		return boardDao.getList();
 	}
 
-	
-	
+		
 	public List<BoardVo> listFind(FindCriteria findCri) {
 		return boardDao.listFind(findCri);
 	}
@@ -29,7 +28,6 @@ public class BoardService {
 		return boardDao.findCountData(findCri);
 	}
 
-	
 	
 	public boolean writeBoard(BoardVo vo) {
 		return boardDao.insert(vo);
