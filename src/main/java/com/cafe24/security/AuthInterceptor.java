@@ -33,9 +33,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
 		// 4. Method @Auth 없으면
 		// class(Type)에 @Auth받아오기
-//		if(auth == null) {
-//			auth = ... 과제!
-//		}
+		if(auth == null) {
+			auth = handlerMethod.getMethod().getDeclaringClass().getAnnotation(Auth.class);
+		}
 
 		// 5. @Auth가 안 붙어있는 경우
 		if (auth == null) {
@@ -68,23 +68,21 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			return true;
 		}
 
-		// 관리자 접근
-//		if( role==Auth.Role.ADMIN ) {
-//		if( authUser.getRole().equals("ADMIN") ) {
-//			// admin임을 알 수 있는 조건
-//			if( "ADMIN".equals(authUser.getRole()) == false ){   
-//								// admin이 아니므로 return false
-//				response.sendRedirect(request.getContextPath());
-//				return false;
-//			}
-//		}
-		if ("ADMIN".equals(authUser.getRole()) == false) {
-			response.sendRedirect(request.getContextPath());
-			return false;
+		// 10. Admin Role 권한 체크 - authUser.getRole().equals("ADMIN")
+		if( role==Auth.Role.ADMIN ) {
+			// admin임을 알 수 있는 조건
+			if( "ADMIN".equals(authUser.getRole()) == false ){   
+								// admin이 아니므로 return false
+				response.sendRedirect(request.getContextPath());
+				return false;
+			}
 		}
+//		if ("ADMIN".equals(authUser.getRole()) == false) {
+//			response.sendRedirect(request.getContextPath());
+//			return false;
+//		}
 
-		// 10. Admin Role 권한 체크
-		// authUser.getRole().equals("ADMIN") - 과제
+
 		return true;
 	}
 
