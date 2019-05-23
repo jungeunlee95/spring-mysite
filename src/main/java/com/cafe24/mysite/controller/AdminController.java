@@ -9,9 +9,9 @@ import com.cafe24.mysite.vo.UserVo;
 import com.cafe24.security.Auth;
 import com.cafe24.security.AuthUser;
 
+@Auth(role=Auth.Role.ADMIN)
 @Controller
 @RequestMapping("/admin")
-@Auth(role=Auth.Role.ADMIN)
 public class AdminController {
 	
 	@Autowired
@@ -19,6 +19,10 @@ public class AdminController {
 	
 	@RequestMapping({"","/main"})
 	public String main(@AuthUser UserVo authUser) {
+		return "admin/main";
+	}
+	@RequestMapping("/main/update")
+	public String mainUpdate(@AuthUser UserVo authUser) {
 		return "admin/main";
 	}
 

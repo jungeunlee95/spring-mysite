@@ -22,7 +22,9 @@ import com.cafe24.mysite.dto.FindCriteria;
 import com.cafe24.mysite.dto.PagingMaker;
 import com.cafe24.mysite.service.BoardService;
 import com.cafe24.mysite.vo.BoardVo;
+import com.cafe24.mysite.vo.UserVo;
 import com.cafe24.security.Auth;
+import com.cafe24.security.AuthUser;
 
 @Controller
 @RequestMapping("/board")
@@ -34,38 +36,35 @@ public class BoardController {
 	@RequestMapping(value = "")
 	public String list(Model model, FindCriteria fCri) {
 		model.addAttribute("list", boardService.listFind(fCri));
-		PagingMaker pagingMaker = new PagingMaker();
-		pagingMaker.setCri(fCri);
-		pagingMaker.setTotalData(boardService.findCountData(fCri));
+		PagingMaker pagingMaker = boardService.getPagingMaker(fCri);
 		model.addAttribute("findCountData", boardService.findCountData(fCri));
-
 		model.addAttribute("pagingMaker", pagingMaker);
-
-		return "board/list";
-		
-		
+		return "board/list";		
 	}
 	
 //	@Auth(role=Auth.Role.USER)
 	@Auth
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
-	public String write(@ModelAttribute BoardVo boardVo,
+	public String write(@AuthUser UserVo authUser,
+						@ModelAttribute BoardVo boardVo,
 						@ModelAttribute("fCri") FindCriteria fCri) {
 		return "board/write";
 	}
 
 	@Auth
 	@RequestMapping(value = "/write/{no}", method = RequestMethod.GET)
-	public String write(@ModelAttribute("fCri") FindCriteria fCri, Model model, 
-			@PathVariable(value = "no") Long no,
-			@ModelAttribute BoardVo boardVo) {
+	public String write(@AuthUser UserVo authUser,
+						@ModelAttribute("fCri") FindCriteria fCri, Model model, 
+						@PathVariable(value = "no") Long no,
+						@ModelAttribute BoardVo boardVo) {
 		model.addAttribute("groupNo", no);
 		return "board/write";
 	}
 
 	@Auth
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
-	public String write(@ModelAttribute("fCri") FindCriteria fCri,
+	public String write(@AuthUser UserVo authUser,
+						@ModelAttribute("fCri") FindCriteria fCri,
 						Model model,
 						@ModelAttribute @Valid BoardVo boardVo,
 						BindingResult result) {
@@ -83,10 +82,6 @@ public class BoardController {
 			if (boardVo.getGroupNo() == null) {
 				boardService.writeBoard(boardVo);
 			} else {
-				BoardVo master = boardService.getBoardView(boardVo.getGroupNo());
-				boardVo.setGroupNo(master.getGroupNo());
-				boardVo.setOrderNo(master.getOrderNo());
-				boardVo.setDepth(master.getDepth());
 				boardService.writeReply(boardVo);
 			}
 			return "redirect:/board";
@@ -100,8 +95,7 @@ public class BoardController {
 					   HttpServletRequest request, 
 					   HttpServletResponse response, 
 					   HttpSession session) {
-		BoardVo boardVo = boardService.getBoardView(no);
-		model.addAttribute("boardVo", boardVo);
+		model.addAttribute("boardVo", boardService.getBoardView(no));
 		
 		// 조회수 쿠키 검사
 		Cookie cookies[] = request.getCookies();
@@ -129,9 +123,11 @@ public class BoardController {
 		
 		return "board/view";
 	}
-
+	
+	@Auth
 	@RequestMapping(value = "/delete/{no}")
-	public String delete(@PathVariable(value = "no") Long no, Model model,
+	public String delete(@AuthUser UserVo authUser,
+						 @PathVariable(value = "no") Long no, Model model,
 						 @ModelAttribute("fCri") FindCriteria fCri) {
 		Boolean result = null;
 		BoardVo boardVo = boardService.getBoardView(no);
@@ -145,15 +141,22 @@ public class BoardController {
 		return "redirect:/board";
 	}
 
+	@Auth
 	@RequestMapping(value = "/modify/{no}", method = RequestMethod.GET)
-	public String modify(@PathVariable(value = "no") Long no, Model model, @ModelAttribute("fCri") FindCriteria fCri) {
+	public String modify(@AuthUser UserVo authUser,
+						 @PathVariable(value = "no") Long no, 
+						 Model model, @ModelAttribute("fCri") FindCriteria fCri) {
 		BoardVo boardVo = boardService.getBoardView(no);
 		model.addAttribute("boardVo", boardVo);
 		return "board/modify";
 	}
 
+	@Auth
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
-	public String modify(BoardVo vo, Model model, @ModelAttribute("fCri") FindCriteria fCri) {
+	public String modify(@AuthUser UserVo authUser,
+						 BoardVo vo, 
+						 Model model, 
+						 @ModelAttribute("fCri") FindCriteria fCri) {
 		boardService.modifyBoard(vo);
 		BoardVo boardVo = boardService.getBoardView(vo.getNo());
 		model.addAttribute("boardVo", boardVo);

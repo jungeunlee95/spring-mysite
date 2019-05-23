@@ -9,27 +9,30 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class UserVo {
 
 	private Long no;
-	
+
 	@NotEmpty
-	@Length(min=2, max=8)
+	@Length(min = 2, max = 8)
 	private String name;
-	
+
 	@Email
 	@NotEmpty
 	private String email;
-	
+
 	@NotNull
-	@Length(min=3)
+	@Length(min = 3)
 	private String password;
-	
+
 	@NotNull
 	private String gender;
-	
+
+	private String role;
+
 	private String regDate;
 
 	public UserVo() {
 		super();
 	}
+
 	public UserVo(String email, String password) {
 		this.email = email;
 		this.password = password;
@@ -83,10 +86,18 @@ public class UserVo {
 		this.regDate = regDate;
 	}
 
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
 	@Override
 	public String toString() {
 		return "UserVo [no=" + no + ", name=" + name + ", email=" + email + ", password=" + password + ", gender="
-				+ gender + ", regDate=" + regDate + "]";
+				+ gender + ", role=" + role + ", regDate=" + regDate + "]";
 	}
 
 }

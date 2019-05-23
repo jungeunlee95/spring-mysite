@@ -4,9 +4,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.cafe24.mysite.service.AdminService;
 import com.cafe24.mysite.vo.UserVo;
 
 public class AuthInterceptor extends HandlerInterceptorAdapter {
@@ -14,13 +17,17 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		// System.out.println(handler+"@@@");
-		// 기본: public java.lang.String
-		// com.cafe24.mysite.controller.MainController.main(org.springframework.web.servlet.ModelAndView)
-		// 이미지 :
-		// org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler@9a1f68a
+		// System.out.println(handler+"@@@"); -> 이미지는 DefaultServletHttpRequestHandler
 
-		// 1. handler 종류 확인
+		ApplicationContext ac = 
+		WebApplicationContextUtils.getWebApplicationContext(
+				request.getServletContext()
+				);
+ 
+		AdminService adminService = ac.getBean(AdminService.class);
+		request.getServletContext().setAttribute("site", adminService.getMain());
+//		
+		// 1. handler 종류 확인 
 		if (handler instanceof HandlerMethod == false) {
 			return true;
 		}
@@ -33,7 +40,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
 		// 4. Method @Auth 없으면
 		// class(Type)에 @Auth받아오기
-		if(auth == null) {
+		if(auth == null) { 
 			auth = handlerMethod.getMethod().getDeclaringClass().getAnnotation(Auth.class);
 		}
 
@@ -77,11 +84,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 				return false;
 			}
 		}
-//		if ("ADMIN".equals(authUser.getRole()) == false) {
-//			response.sendRedirect(request.getContextPath());
-//			return false;
-//		}
-
 
 		return true;
 	}

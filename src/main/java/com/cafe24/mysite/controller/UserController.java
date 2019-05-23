@@ -13,6 +13,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cafe24.mysite.service.UserService;
 import com.cafe24.mysite.vo.UserVo;
@@ -51,28 +52,25 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login() {
+	public String login(@RequestParam(value = "result", required = false) String result, Model model) {
+		model.addAttribute("result", result);
 		return "user/login";
 	}
 
+	@Auth
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public String update(HttpSession session, Model model) {
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if (authUser == null) {
-			return "redirect:/";
-		}
-
+	public String update(
+			@AuthUser UserVo authUser, 
+			Model model) {
 		UserVo userVo = userService.getUser(authUser.getNo());
 		model.addAttribute("userVo", userVo);
 		return "user/update";
 	}
 
-	@Auth
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(@AuthUser UserVo authUser, Model model) {
-	    UserVo userVo = userService.getUser(authUser.getNo());
-	    userService.updateUser(userVo);
-	    return "redirect:/user/update?result=success";
+	public String update(@ModelAttribute UserVo userVo, Model model, HttpSession session) {
+		userService.updateUser(userVo);
+		return "redirect:/user/update?result=success";
 	}
 
 // ------------------------------- [인터셉터로 넘긴코드들]  ------------------------------

@@ -28,7 +28,6 @@ public class AuthUserHandlerMethodArgumentResolver implements HandlerMethodArgum
 		// 내가 아는 파라미터라면 가져와서
 		HttpServletRequest request = 
 				webRequest.getNativeRequest(HttpServletRequest.class);
-		
 		HttpSession session = request.getSession();
 		if(session == null) {
 			return null;

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cafe24.mysite.dto.FindCriteria;
+import com.cafe24.mysite.dto.PagingMaker;
 import com.cafe24.mysite.repository.BoardDao;
 import com.cafe24.mysite.vo.BoardVo;
 
@@ -17,6 +18,13 @@ public class BoardService {
 
 	public List<BoardVo> getList() {
 		return boardDao.getList();
+	}
+	
+	public PagingMaker getPagingMaker(FindCriteria fCri) {
+		PagingMaker pagingMaker = new PagingMaker();
+		pagingMaker.setCri(fCri);
+		pagingMaker.setTotalData(findCountData(fCri));
+		return pagingMaker;
 	}
 
 		
@@ -38,6 +46,10 @@ public class BoardService {
 	}
 
 	public boolean writeReply(BoardVo vo) {
+		BoardVo master = getBoardView(vo.getGroupNo());
+		vo.setGroupNo(master.getGroupNo());
+		vo.setOrderNo(master.getOrderNo());
+		vo.setDepth(master.getDepth());
 		return boardDao.reply(vo);
 	}
 
