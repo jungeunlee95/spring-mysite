@@ -14,7 +14,10 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-
+		//System.out.println(handler+"@@@");
+		// 기본:  public java.lang.String com.cafe24.mysite.controller.MainController.main(org.springframework.web.servlet.ModelAndView)
+		// 이미지 : org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler@9a1f68a
+		
 		// 1. handler 종류 확인
 		if (handler instanceof HandlerMethod == false) {
 			return true;

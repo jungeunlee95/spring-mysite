@@ -16,7 +16,9 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter {
 	private UserService userService;
 	
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+	public boolean preHandle(HttpServletRequest request, 
+							HttpServletResponse response, 
+							Object handler)
 			throws Exception {
 		
 		String email = request.getParameter("email");
@@ -35,7 +37,7 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter {
 		userVo.setPassword(password);
 		UserVo authUser = userService.getUser(userVo);
 		if(authUser==null) {
-			response.sendRedirect(request.getContextPath()+"/user/login");
+			response.sendRedirect(request.getContextPath()+"/user/login?result=fail");
 			return false;
 		}
 		
