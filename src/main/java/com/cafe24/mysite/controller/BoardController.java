@@ -46,17 +46,15 @@ public class BoardController {
 		
 	}
 	
+//	@Auth(role=Auth.Role.USER)
 	@Auth
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
 	public String write(@ModelAttribute BoardVo boardVo,
-						@ModelAttribute("fCri") FindCriteria fCri
-						/*HttpSession session*/) {
-//		if(session.getAttribute("authUser")==null) {
-//			return "redirect:/";
-//		}
+						@ModelAttribute("fCri") FindCriteria fCri) {
 		return "board/write";
 	}
 
+	@Auth
 	@RequestMapping(value = "/write/{no}", method = RequestMethod.GET)
 	public String write(@ModelAttribute("fCri") FindCriteria fCri, Model model, 
 			@PathVariable(value = "no") Long no,
@@ -65,6 +63,7 @@ public class BoardController {
 		return "board/write";
 	}
 
+	@Auth
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
 	public String write(@ModelAttribute("fCri") FindCriteria fCri,
 						Model model,

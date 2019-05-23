@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cafe24.mysite.service.UserService;
 import com.cafe24.mysite.vo.UserVo;
+import com.cafe24.security.Auth;
+import com.cafe24.security.AuthUser;
 
 @Controller
 @RequestMapping("/user")
@@ -65,12 +67,12 @@ public class UserController {
 		return "user/update";
 	}
 
+	@Auth
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(@ModelAttribute UserVo userVo, Model model, HttpSession session) {
-
-		userService.updateUser(userVo);
-
-		return "redirect:/user/update?result=success";
+	public String update(@AuthUser UserVo authUser, Model model) {
+	    UserVo userVo = userService.getUser(authUser.getNo());
+	    userService.updateUser(userVo);
+	    return "redirect:/user/update?result=success";
 	}
 
 // ------------------------------- [인터셉터로 넘긴코드들]  ------------------------------
