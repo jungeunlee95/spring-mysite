@@ -1,4 +1,4 @@
-package com.cafe24.mysite.repository.dao;
+package com.cafe24.mysite.repository;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +10,7 @@ import com.cafe24.mysite.vo.UserVo;
 
 @Repository
 public class UserDao {
+	
 	@Autowired 
 	private SqlSession sqlSession;
 	
@@ -41,6 +42,7 @@ public class UserDao {
 	}
 	
 	public Boolean insert(UserVo vo) {
+		System.out.println(vo);
 		int count = sqlSession.insert("user.insert", vo);
 		return 1==count;
 	}

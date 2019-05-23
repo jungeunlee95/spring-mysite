@@ -1,4 +1,4 @@
-package com.cafe24.mysite.repository.dao;
+package com.cafe24.mysite.repository;
 
 import java.util.List;
 

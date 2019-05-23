@@ -22,6 +22,7 @@ import com.cafe24.mysite.dto.FindCriteria;
 import com.cafe24.mysite.dto.PagingMaker;
 import com.cafe24.mysite.service.BoardService;
 import com.cafe24.mysite.vo.BoardVo;
+import com.cafe24.security.Auth;
 
 @Controller
 @RequestMapping("/board")
@@ -41,10 +42,18 @@ public class BoardController {
 		model.addAttribute("pagingMaker", pagingMaker);
 
 		return "board/list";
+		
+		
 	}
-
+	
+	@Auth
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
-	public String write(@ModelAttribute BoardVo boardVo) {
+	public String write(@ModelAttribute BoardVo boardVo,
+						@ModelAttribute("fCri") FindCriteria fCri
+						/*HttpSession session*/) {
+//		if(session.getAttribute("authUser")==null) {
+//			return "redirect:/";
+//		}
 		return "board/write";
 	}
 
