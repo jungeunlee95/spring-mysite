@@ -148,8 +148,10 @@ public class BoardController {
 						 @PathVariable(value = "no") Long no, 
 						 Model model, 
 						 @ModelAttribute("fCri") FindCriteria fCri) {
-		
 		BoardVo boardVo = boardService.getBoardView(no);
+		if(boardVo.getUserNo()!=authUser.getNo()) {
+			return "redirect:/board";
+		}
 		model.addAttribute("boardVo", boardVo);
 		return "board/modify";
 	}

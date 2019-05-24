@@ -66,10 +66,15 @@ public class UserController {
 		model.addAttribute("userVo", userVo);
 		return "user/update";
 	}
-
+	
+	@Auth
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(@ModelAttribute UserVo userVo, Model model, HttpSession session) {
+	public String update(@AuthUser UserVo authUser, 
+						@ModelAttribute UserVo userVo, 
+						Model model) {
 		userService.updateUser(userVo);
+		// session의 authUser 변경
+		authUser.setName(userVo.getName());
 		return "redirect:/user/update?result=success";
 	}
 
