@@ -28,5 +28,8 @@
 				<li><a href="${pageContext.servletContext.contextPath}/board">게시판</a></li>
 			</c:otherwise>
 		</c:choose>
+		<c:if test="${authUser.role == 'ADMIN' }">
+			<li><a href="${pageContext.servletContext.contextPath}/admin">관리자페이지</a></li> 
+		</c:if>
 	</ul>
 </div> 

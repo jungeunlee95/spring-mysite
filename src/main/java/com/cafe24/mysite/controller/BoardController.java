@@ -36,9 +36,10 @@ public class BoardController {
 	@RequestMapping(value = "")
 	public String list(Model model, FindCriteria fCri) {
 		model.addAttribute("list", boardService.listFind(fCri));
-		PagingMaker pagingMaker = boardService.getPagingMaker(fCri);
+		
+		model.addAttribute("pagingMaker", boardService.getPagingMaker(fCri));
+		
 		model.addAttribute("findCountData", boardService.findCountData(fCri));
-		model.addAttribute("pagingMaker", pagingMaker);
 		return "board/list";		
 	}
 	
@@ -145,7 +146,9 @@ public class BoardController {
 	@RequestMapping(value = "/modify/{no}", method = RequestMethod.GET)
 	public String modify(@AuthUser UserVo authUser,
 						 @PathVariable(value = "no") Long no, 
-						 Model model, @ModelAttribute("fCri") FindCriteria fCri) {
+						 Model model, 
+						 @ModelAttribute("fCri") FindCriteria fCri) {
+		
 		BoardVo boardVo = boardService.getBoardView(no);
 		model.addAttribute("boardVo", boardVo);
 		return "board/modify";
