@@ -146,7 +146,7 @@
 					<resource>
 						<directory>${project.basedir}/src/main/production/resources</directory>
 						<excludes>
-							<exclude>**/*.java</exclude> 
+							<exclude>**/*.java</exclude>
 						</excludes>
 					</resource>
 				</resources>
@@ -156,16 +156,6 @@
 						<artifactId>maven-resources-plugin</artifactId>
 						<configuration>
 							<encoding>UTF-8</encoding>
-						</configuration>
-					</plugin> 
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>tomcat-maven-plugin</artifactId>
-						<configuration> 
-							<url>http://127.0.0.1:8080/manager/text</url>
-							<path>/mysite3</path>
-							<username>admin</username>
-							<password>manager</password>
 						</configuration>
 					</plugin>
 				</plugins>
@@ -203,7 +193,7 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
- 
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -212,7 +202,16 @@
 					<warSourceDirectory>src/main/webapp</warSourceDirectory>
 				</configuration>
 			</plugin>
-
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>tomcat-maven-plugin</artifactId>
+				<configuration>
+					<url>http://127.0.0.1:8080/manager/text</url>
+					<path>/mysite2</path>
+					<username>admin</username>
+					<password>manager</password>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
