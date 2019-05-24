@@ -136,7 +136,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
- 
+
 
 	<profiles>
 		<profile>
@@ -156,6 +156,16 @@
 						<artifactId>maven-resources-plugin</artifactId>
 						<configuration>
 							<encoding>UTF-8</encoding>
+						</configuration>
+					</plugin> 
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>tomcat-maven-plugin</artifactId>
+						<configuration>
+							<url>http://127.0.0.1/manager/text</url>
+							<path>/mysite3</path>
+							<username>admin</username>
+							<password>manager</password>
 						</configuration>
 					</plugin>
 				</plugins>
