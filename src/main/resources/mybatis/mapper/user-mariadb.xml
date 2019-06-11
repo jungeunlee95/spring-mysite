@@ -5,12 +5,12 @@
 
 	<insert id="insert" parameterType="uservo">
 	<![CDATA[
-		insert into users
-		values(default, #{name }, #{email }, #{password }, #{gender }, 'USER', now())
+		insert into user
+		values(null, #{name }, #{email }, #{password }, #{gender }, 'USER', now())
 	]]>
 	<selectKey keyProperty="no" resultType="long" order="AFTER">
 	<![CDATA[
-		select max(no) from users
+		select last_insert_id()
 	]]>
 	</selectKey>
 	</insert> 
@@ -18,7 +18,7 @@
 	<select id="getByNo" resultType="uservo" parameterType='long'>
 	<![CDATA[
 		select no, name, email, password, gender, role, reg_date as regDate
-		 from users 
+		 from user 
 		where no = #{no }
 	]]>
 	</select>
@@ -26,7 +26,7 @@
 	<select id="getByEmail" resultType="uservo" parameterType='string'>
 	<![CDATA[
 		select no, name, email, password, gender, role, reg_date as regDate
-		 from users 
+		 from user 
 		where email = #{email }
 	]]> 
 	</select>
@@ -34,7 +34,7 @@
 	<select id="getByEmailAndPassword" resultType="uservo" parameterType="uservo">
 	<![CDATA[
 		select no, name, email, password, gender, role, reg_date as regDate
-		 from users 
+		 from user 
 		where email = #{email } 
 		and password = #{password }
 	]]>
@@ -42,7 +42,7 @@
 	
 	<update id="update" parameterType="uservo">
 	<![CDATA[
-		update users 
+		update user 
 		set name = #{name },
 	]]>
 		<if test=" password != '' ">

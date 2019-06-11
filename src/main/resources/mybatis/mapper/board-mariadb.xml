@@ -6,7 +6,7 @@
 	<!-- 제목 검색만하고 나중에 더 추가 -->
 	<sql id="findSQL">
 		<if test="findType != null and findType =='T'.toString()">
-			and b.title like '%' || #{keyword } || '%'
+			and b.title like CONCAT('%',#{keyword },'%')
 		</if>
 	</sql> 
 	
@@ -14,7 +14,7 @@
 	<sql id="findSQLCount">
 	<where>
 		<if test="findType != null and findType =='T'.toString()">
-			title like '%' || #{keyword } || '%'
+			title like CONCAT('%',#{keyword },'%')
 		</if>
 	</where>  
 	</sql>
@@ -25,13 +25,13 @@
 		select b.no, b.title, u.name author, b.content, b.view_count viewCount, 
 				b.reg_date regDate, b.update_date updateDate, b.group_no groupNo, 
 				b.order_no orderNo, b.depth, b.master, u.no as userNo
-		from board b, users u
+		from board b, user u
 		where b.user_no = u.no
 	]]> 
         <include refid="findSQL" />
      <![CDATA[          
         order by group_no desc, master desc, order_no
-         offset #{startPage } limit #{numPerPage } 
+         limit #{startPage }, #{numPerPage }
      ]]> 
     </select>  
      
@@ -55,7 +55,7 @@
 		select b.no, b.title, u.name author, b.content, b.view_count viewCount, 
 				b.reg_date regDate, b.update_date updateDate, b.group_no groupNo, 
 				b.order_no orderNo, b.depth, b.master, u.no as userNo
-		from board b, users u
+		from board b, user u
 		where b.user_no = u.no
 		order by group_no desc, master desc, order_no
 	]]>
@@ -64,7 +64,7 @@
 	<!-- 첫글 작성 -->
 	<insert id="insertFirst" parameterType="boardvo">
 	<![CDATA[
-	insert into board values(default, #{title }, #{userNo } , #{content }, 0, now(), now(),
+	insert into board values(null, #{title }, #{userNo } , #{content }, 0, now(), now(),
 	 1, 1, 0, 1)
 	]]>
 	</insert>
@@ -72,7 +72,7 @@
 	<!-- 새글 작성 -->
 	<insert id="insert" parameterType="boardvo">
 	<![CDATA[
-	insert into board values(default, #{userNo }, #{title } , #{content }, 0, now(), now(),
+	insert into board values(null, #{title }, #{userNo } , #{content }, 0, now(), now(),
 	 (select max(group_no)+1 from board board_as), 1, 0, 1)
 	]]>
 	</insert>
@@ -86,7 +86,7 @@
 		<!-- 답글 작성 -->
 	<insert id="reply" parameterType="boardvo">
 	<![CDATA[
-	 insert into board values(default, #{userNo }, #{title } , #{content }, 0, now(), now(),
+	 insert into board values(null, #{title }, #{userNo } , #{content }, 0, now(), now(),
 	  #{groupNo }, #{orderNo }+1 , #{depth }+1, 0)
 	]]>
 	</insert>
@@ -97,7 +97,7 @@
 		select b.no, b.title, u.name author, b.content, b.view_count viewCount, 
 				b.reg_date regDate, b.update_date updateDate, b.group_no groupNo, 
 				b.order_no orderNo, b.depth, b.master, u.no as userNo
-		from board b, users u
+		from board b, user u
 		where b.user_no = u.no
 		and b.no = #{no }	
 	]]>
